@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(untitled1)
+project(IF767-pmt)
 
 set(CMAKE_CXX_STANDARD 14)
+set(EXECUTABLE_OUTPUT_PATH ./bin)
 
-add_executable(untitled1 main.cpp)
+add_executable(IF767-pmt ./src/main.cpp)
