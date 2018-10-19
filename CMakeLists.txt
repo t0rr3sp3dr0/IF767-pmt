@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(IF767-pmt)
+project(pmt)
 
 set(CMAKE_CXX_STANDARD 14)
 set(EXECUTABLE_OUTPUT_PATH ./bin)
 
-add_executable(IF767-pmt ./src/main.cpp)
+add_executable(pmt ./src/main.cpp src/string_searching_algorithm.h src/string_searching_algorithm.cpp src/boyer_moore.h src/boyer_moore.cpp src/shift_or.h src/shift_or.cpp src/wu_manber.h src/wu_manber.cpp)
