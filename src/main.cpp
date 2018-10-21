@@ -11,6 +11,7 @@
 #include <getopt.h>
 
 #include "string_searching_algorithm.h"
+#include "aho_corasick.h"
 #include "boyer_moore.h"
 #include "shift_or.h"
 #include "wu_manber.h"
@@ -127,6 +128,11 @@ int main(int argc, char *argv[]) {
 
     std::list<std::unique_ptr<string_searching_algorithm>> matchers;
     switch (a) {
+        case AHO_CORASICK:
+            for (std::string &pattern : p)
+                matchers.emplace_back(new aho_corasick(pattern));
+            break;
+
         case BOYER_MOORE:
             for (std::string &pattern : p)
                 matchers.emplace_back(new boyer_moore(pattern));
