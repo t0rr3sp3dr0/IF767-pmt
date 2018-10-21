@@ -14,6 +14,7 @@
 #include "aho_corasick.h"
 #include "boyer_moore.h"
 #include "shift_or.h"
+#include "ukkonen.h"
 #include "wu_manber.h"
 
 enum algorithm {
@@ -141,6 +142,11 @@ int main(int argc, char *argv[]) {
         case SHIFT_OR:
             for (std::string &pattern : p)
                 matchers.emplace_back(new shift_or(pattern));
+            break;
+
+        case UKKONEN:
+            for (std::string &pattern : p)
+                matchers.emplace_back(new ukkonen(pattern, e));
             break;
 
         case WU_MANBER:
