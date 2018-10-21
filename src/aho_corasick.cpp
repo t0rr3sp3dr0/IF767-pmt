@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 20/10/2018.
-//
-
 #include <climits>
 #include <queue>
 

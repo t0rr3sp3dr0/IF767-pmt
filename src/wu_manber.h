@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 19/10/2018.
-//
-
 #ifndef PMT_WU_MANBER_H
 #define PMT_WU_MANBER_H
 

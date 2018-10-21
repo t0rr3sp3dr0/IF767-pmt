@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 19/10/2018.
-//
-
 #include <climits>
 
 #include "shift_or.h"

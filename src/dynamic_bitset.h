@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 21/10/2018.
-//
-
 #ifndef PMT_DYNAMIC_BITSET_H
 #define PMT_DYNAMIC_BITSET_H
 

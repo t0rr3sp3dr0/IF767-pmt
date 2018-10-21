@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 19/10/2018.
-//
-
 #ifndef PMT_STRING_SEARCHING_ALGORITHM_H
 #define PMT_STRING_SEARCHING_ALGORITHM_H
 

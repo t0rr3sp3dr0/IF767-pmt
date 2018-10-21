@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 21/10/2018.
-//
-
 #ifndef PMT_UKKONEN_H
 #define PMT_UKKONEN_H
 

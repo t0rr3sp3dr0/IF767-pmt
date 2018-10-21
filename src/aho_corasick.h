@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 20/10/2018.
-//
-
 #ifndef PMT_AHO_CORASICK_H
 #define PMT_AHO_CORASICK_H
 

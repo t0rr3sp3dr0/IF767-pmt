@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 19/10/2018.
-//
-
 #ifndef PMT_SHIFT_OR_H
 #define PMT_SHIFT_OR_H
 

@@ -1,7 +1,3 @@
-//
-// Created by Pedro Tôrres on 21/10/2018.
-//
-
 #include <climits>
 #include <functional>
 #include <memory>
