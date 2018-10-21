@@ -37,32 +37,47 @@ inline void boyer_moore::init_bad_char(std::vector<size_t> &v, std::string &patt
         v[c] = i++;
 }
 
-boyer_moore::boyer_moore(std::string &pattern) : string_searching_algorithm(pattern) {
-    std::vector<size_t> bc(UCHAR_MAX, static_cast<size_t>(-1));
-    boyer_moore::init_bad_char(bc, pattern);
-    this->bc = bc;
+boyer_moore::boyer_moore(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
+    for (auto &pattern : patterns) {
+        std::vector<size_t> bc(UCHAR_MAX, static_cast<size_t>(-1));
+        boyer_moore::init_bad_char(bc, pattern);
+        this->bcs.emplace_back(bc);
 
-    std::vector<size_t> gs(pattern.length() + 1);
-    boyer_moore::init_good_suffix(gs, pattern);
-    this->gs = gs;
+        std::vector<size_t> gs(pattern.length() + 1);
+        boyer_moore::init_good_suffix(gs, pattern);
+        this->gss.emplace_back(gs);
+    }
 }
 
-inline std::vector<size_t> boyer_moore::find(std::string &text) {
+inline std::list<size_t> boyer_moore::find(std::string &text) {
     size_t n = text.length();
-    size_t m = pattern.length();
 
-    std::vector<size_t> occurrences;
+    std::list<size_t> occurrences;
 
-    for (size_t i = 0; i <= n - m;) {
-        size_t j = m - 1;
-        while (j >= 0 && text[i + j] == pattern[j])
-            --j;
+    auto it0 = patterns.begin();
+    auto it1 = bcs.begin();
+    auto it2 = gss.begin();
+    while (it0 != patterns.end()) {
+        auto &pattern = *it0++;
+        auto &bc = *it1++;
+        auto &gs = *it2++;
 
-        if (j == static_cast<size_t>(-1)) {
-            occurrences.emplace_back(i);
-            i += gs[m];
-        } else
-            i += std::min(std::max(gs[j], j - bc[text[i + j]]), m);
+        size_t m = pattern.length();
+
+        if (text.length() < m)
+            continue;
+
+        for (size_t i = 0; i <= n - m;) {
+            size_t j = m - 1;
+            while (j >= 0 && text[i + j] == pattern[j])
+                --j;
+
+            if (j == static_cast<size_t>(-1)) {
+                occurrences.emplace_back(i);
+                i += gs[m];
+            } else
+                i += std::min(std::max(gs[j], j - bc[text[i + j]]), m);
+        }
     }
 
     return occurrences;
@@ -70,17 +85,30 @@ inline std::vector<size_t> boyer_moore::find(std::string &text) {
 
 inline bool boyer_moore::exists(std::string &text) {
     size_t n = text.length();
-    size_t m = pattern.length();
 
-    for (size_t i = 0; i <= n - m;) {
-        size_t j = m - 1;
-        while (j >= 0 && text[i + j] == pattern[j])
-            --j;
+    auto it0 = patterns.begin();
+    auto it1 = bcs.begin();
+    auto it2 = gss.begin();
+    while (it0 != patterns.end()) {
+        auto &pattern = *it0++;
+        auto &bc = *it1++;
+        auto &gs = *it2++;
 
-        if (j == static_cast<size_t>(-1))
-            return true;
+        size_t m = pattern.length();
 
-        i += std::min(std::max(gs[j], j - bc[text[i + j]]), m);
+        if (text.length() < m)
+            continue;
+
+        for (size_t i = 0; i <= n - m;) {
+            size_t j = m - 1;
+            while (j >= 0 && text[i + j] == pattern[j])
+                --j;
+
+            if (j == static_cast<size_t>(-1))
+                return true;
+
+            i += std::min(std::max(gs[j], j - bc[text[i + j]]), m);
+        }
     }
 
     return false;

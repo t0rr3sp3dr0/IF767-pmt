@@ -13,8 +13,8 @@ protected:
     const size_t e;
 
 public:
-    wu_manber(std::string &pattern, size_t edit_distance);
-    std::vector<size_t> find(std::string &text) override;
+    wu_manber(std::list<std::string> &patterns, size_t edit_distance);
+    std::list<size_t> find(std::string &text) override;
     bool exists(std::string &text) override;
 };
 

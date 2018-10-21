@@ -7,7 +7,7 @@
 
 #include "aho_corasick.h"
 
-inline void aho_corasick::init_fsm(std::unordered_map<std::pair<size_t, char>, size_t> &graph, std::unordered_map<size_t, std::vector<size_t>> &succ, std::vector<size_t> &fail, std::vector<std::string> &patterns) {
+inline void aho_corasick::init_fsm(std::unordered_map<std::pair<size_t, char>, size_t> &graph, std::unordered_map<size_t, std::vector<size_t>> &succ, std::vector<size_t> &fail, std::list<std::string> &patterns) {
     size_t i = 0;
     for (auto &p : patterns) {
         size_t cur = 0;
@@ -50,20 +50,16 @@ inline void aho_corasick::init_fsm(std::unordered_map<std::pair<size_t, char>, s
     }
 }
 
-aho_corasick::aho_corasick(std::string &pattern) : string_searching_algorithm(pattern) {
-    std::vector<std::string> patterns = {pattern};
-
+aho_corasick::aho_corasick(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
     aho_corasick::init_fsm(this->graph, this->succ, this->fail, patterns);
 }
 
-std::vector<size_t> aho_corasick::find(std::string &text) {
-    std::vector<std::string> patterns = {pattern};
-
+std::list<size_t> aho_corasick::find(std::string &text) {
     std::vector<size_t> m;
     for (auto &p: patterns)
         m.emplace_back(p.size());
 
-    std::vector<size_t> occurrences;
+    std::list<size_t> occurrences;
 
     size_t cur = 0;
     size_t i = 0;
@@ -81,8 +77,6 @@ std::vector<size_t> aho_corasick::find(std::string &text) {
 }
 
 bool aho_corasick::exists(std::string &text) {
-    std::vector<std::string> patterns = {pattern};
-
     size_t cur = 0;
     size_t i = 0;
     for (auto &c: text) {

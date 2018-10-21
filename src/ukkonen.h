@@ -7,6 +7,7 @@
 
 
 #include <unordered_set>
+#include <vector>
 
 #include "aho_corasick.h"
 
@@ -27,13 +28,13 @@ struct std::hash<std::vector<T>> {
 class ukkonen : public string_searching_algorithm {
 protected:
     const size_t e;
-    std::unordered_set<size_t> tree;
-    std::unordered_map<std::pair<size_t, char>, size_t> delta;
+    std::list<std::unordered_set<size_t>> trees;
+    std::list<std::unordered_map<std::pair<size_t, char>, size_t>> deltas;
     static void init_fsm(std::unordered_set<size_t> &tree, std::unordered_map<std::pair<size_t, char>, size_t> &delta, std::string &pattern, size_t &e);
 
 public:
-    explicit ukkonen(std::string &pattern, size_t edit_distance);
-    std::vector<size_t> find(std::string &text) override;
+    explicit ukkonen(std::list<std::string> &patterns, size_t edit_distance);
+    std::list<size_t> find(std::string &text) override;
     bool exists(std::string &text) override;
 };
 

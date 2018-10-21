@@ -55,32 +55,60 @@ inline void ukkonen::init_fsm(std::unordered_set<size_t> &tree, std::unordered_m
     }
 }
 
-ukkonen::ukkonen(std::string &pattern, size_t edit_distance) : string_searching_algorithm(pattern), e(edit_distance) {
-    ukkonen::init_fsm(this->tree, this->delta, pattern, edit_distance);
+ukkonen::ukkonen(std::list<std::string> &patterns, size_t edit_distance) : string_searching_algorithm(patterns), e(edit_distance) {
+    for (auto &pattern : patterns) {
+        this->trees.emplace_back();
+        this->deltas.emplace_back();
+        ukkonen::init_fsm(this->trees.back(), this->deltas.back(), pattern, edit_distance);
+    }
 }
 
-std::vector<size_t> ukkonen::find(std::string &text) {
-    std::vector<size_t> occurrences;
+std::list<size_t> ukkonen::find(std::string &text) {
+    std::list<size_t> occurrences;
 
-    if (tree.find(0) != tree.end())
-        occurrences.push_back(0);
+    auto it0 = patterns.begin();
+    auto it1 = trees.begin();
+    auto it2 = deltas.begin();
+    while (it0 != patterns.end()) {
+        auto &pattern = *it0++;
+        auto &tree = *it1++;
+        auto &delta = *it2++;
 
-    size_t i = 0;
-    for (size_t j = 0; j < text.size(); ++j)
-        if (tree.find(i = delta[{i, text[j]}]) != tree.end())
-            occurrences.push_back(j);
+        if (text.length() < pattern.length())
+            continue;
+
+        if (tree.find(0) != tree.end())
+            occurrences.push_back(0);
+
+        size_t i = 0;
+        for (size_t j = 0; j < text.size(); ++j)
+            if (tree.find(i = delta[{i, text[j]}]) != tree.end())
+                occurrences.push_back(j);
+    }
 
     return occurrences;
 }
 
 bool ukkonen::exists(std::string &text) {
-    if (tree.find(0) != tree.end())
-        return true;
+    auto it0 = patterns.begin();
+    auto it1 = trees.begin();
+    auto it2 = deltas.begin();
+    while (it0 != patterns.end()) {
+        auto &pattern = *it0++;
+        auto &tree = *it1++;
+        auto &delta = *it2++;
 
-    size_t i = 0;
-    for (char &c : text)
-        if (tree.find(i = delta[{i, c}]) != tree.end())
+        if (text.length() < pattern.length())
+            continue;
+
+        if (tree.find(0) != tree.end())
             return true;
+
+        size_t i = 0;
+        for (char &c : text)
+            if (tree.find(i = delta[{i, c}]) != tree.end())
+                return true;
+    }
 
     return false;
 }

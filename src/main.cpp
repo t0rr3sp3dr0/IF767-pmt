@@ -127,31 +127,26 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    std::list<std::unique_ptr<string_searching_algorithm>> matchers;
+    string_searching_algorithm *matcher = nullptr;
     switch (a) {
         case AHO_CORASICK:
-            for (std::string &pattern : p)
-                matchers.emplace_back(new aho_corasick(pattern));
+            matcher = new aho_corasick(p);
             break;
 
         case BOYER_MOORE:
-            for (std::string &pattern : p)
-                matchers.emplace_back(new boyer_moore(pattern));
+            matcher = new boyer_moore(p);
             break;
 
         case SHIFT_OR:
-            for (std::string &pattern : p)
-                matchers.emplace_back(new shift_or(pattern));
+            matcher = new shift_or(p);
             break;
 
         case UKKONEN:
-            for (std::string &pattern : p)
-                matchers.emplace_back(new ukkonen(pattern, e));
+            matcher = new ukkonen(p, e);
             break;
 
         case WU_MANBER:
-            for (std::string &pattern : p)
-                matchers.emplace_back(new wu_manber(pattern, e));
+            matcher = new wu_manber(p, e);
             break;
 
         default:
@@ -162,36 +157,32 @@ int main(int argc, char *argv[]) {
     while (!t.empty()) {
         std::istream &is = *t.front();
 
+        size_t sum = 0;
+
         std::string text;
         while (getline(is, text)) {
             if (!is.eof())
                 text += '\n';
 
-            for (auto &matcher : matchers) {
-                if (text.length() < matcher->pattern.length())
-                    continue;
+            if (m & mode::COUNT) {
+                std::list<size_t> occurrences = matcher->find(text);
 
-                if (m & mode::COUNT) {
-                    std::vector<size_t> occurrences = matcher->find(text);
+                for (auto &i : occurrences)
+                    sum += 1;
+            } else if (matcher->exists(text) && !(m & mode::QUIET)) {
+                std::cout << text;
 
-                    if (!(m & mode::QUIET)) {
-                        for (auto &i : occurrences)
-                            std::cout << '\t' << i << std::endl;
-
-                        if (!occurrences.empty())
-                            std::cout << text;
-                    }
-                } else if (matcher->exists(text) && !(m & mode::QUIET)) {
-                    std::cout << text;
-
-                    if (is.eof())
-                        std::cout << std::endl;
-                }
+                if (is.eof())
+                    std::cout << std::endl;
             }
         }
 
+        if (m & mode::COUNT && !(m & mode::QUIET))
+            std::cout << sum << std::endl;
+
         t.pop();
     }
+    delete matcher;
 
     return EXIT_SUCCESS;
 }

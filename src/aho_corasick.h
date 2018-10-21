@@ -23,11 +23,11 @@ protected:
     std::unordered_map<std::pair<size_t, char>, size_t> graph;
     std::unordered_map<size_t, std::vector<size_t>> succ;
     std::vector<size_t> fail;
-    static void init_fsm(std::unordered_map<std::pair<size_t, char>, size_t> &graph, std::unordered_map<size_t, std::vector<size_t>> &succ, std::vector<size_t> &fail, std::vector<std::string> &patterns);
+    static void init_fsm(std::unordered_map<std::pair<size_t, char>, size_t> &graph, std::unordered_map<size_t, std::vector<size_t>> &succ, std::vector<size_t> &fail, std::list<std::string> &patterns);
 
 public:
-    explicit aho_corasick(std::string &pattern);
-    std::vector<size_t> find(std::string &text) override;
+    explicit aho_corasick(std::list<std::string> &patterns);
+    std::list<size_t> find(std::string &text) override;
     bool exists(std::string &text) override;
 };
 
