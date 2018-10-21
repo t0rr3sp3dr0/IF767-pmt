@@ -10,7 +10,7 @@
 
 #include "string_searching_algorithm.h"
 
-using dynamic_bitset = std::bitset<32>;
+using dynamic_bitset = std::bitset<sizeof(size_t) * 8>;
 
 class shift_or : public string_searching_algorithm {
 protected:
