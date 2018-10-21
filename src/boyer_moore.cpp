@@ -6,7 +6,7 @@
 
 #include "boyer_moore.h"
 
-inline void boyer_moore::init_border(std::vector<size_t> &v, std::string &pattern) {
+inline void pmt::boyer_moore::init_border(std::vector<size_t> &v, std::string &pattern) {
     size_t m = pattern.length();
     size_t c = m - 1;
 
@@ -17,11 +17,11 @@ inline void boyer_moore::init_border(std::vector<size_t> &v, std::string &patter
         }
 }
 
-inline void boyer_moore::init_good_suffix(std::vector<size_t> &v, std::string &pattern) {
+inline void pmt::boyer_moore::init_good_suffix(std::vector<size_t> &v, std::string &pattern) {
     size_t m = pattern.length();
 
     std::vector<size_t> b(pattern.length() + 1);
-    boyer_moore::init_border(b, pattern);
+    pmt::boyer_moore::init_border(b, pattern);
 
     fill(v.begin(), v.end(), m - b[m]);
     for (size_t l = 1; l <= m; ++l) {
@@ -31,25 +31,25 @@ inline void boyer_moore::init_good_suffix(std::vector<size_t> &v, std::string &p
     };
 }
 
-inline void boyer_moore::init_bad_char(std::vector<size_t> &v, std::string &pattern) {
+inline void pmt::boyer_moore::init_bad_char(std::vector<size_t> &v, std::string &pattern) {
     size_t i = 0;
     for (char &c : pattern)
         v[c] = i++;
 }
 
-boyer_moore::boyer_moore(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
+pmt::boyer_moore::boyer_moore(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
     for (auto &pattern : patterns) {
         std::vector<size_t> bc(UCHAR_MAX, static_cast<size_t>(-1));
-        boyer_moore::init_bad_char(bc, pattern);
+        init_bad_char(bc, pattern);
         this->bcs.emplace_back(bc);
 
         std::vector<size_t> gs(pattern.length() + 1);
-        boyer_moore::init_good_suffix(gs, pattern);
+        init_good_suffix(gs, pattern);
         this->gss.emplace_back(gs);
     }
 }
 
-inline std::list<size_t> boyer_moore::find(std::string &text) {
+inline std::list<size_t> pmt::boyer_moore::find(std::string &text) {
     size_t n = text.length();
 
     std::list<size_t> occurrences;
@@ -83,7 +83,7 @@ inline std::list<size_t> boyer_moore::find(std::string &text) {
     return occurrences;
 }
 
-inline bool boyer_moore::exists(std::string &text) {
+inline bool pmt::boyer_moore::exists(std::string &text) {
     size_t n = text.length();
 
     auto it0 = patterns.begin();

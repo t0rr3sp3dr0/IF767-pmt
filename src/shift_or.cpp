@@ -6,7 +6,7 @@
 
 #include "shift_or.h"
 
-inline void shift_or::init_char_mask(std::vector<dynamic_bitset> &v, std::string &pattern) {
+inline void pmt::shift_or::init_char_mask(std::vector<dynamic_bitset> &v, std::string &pattern) {
     dynamic_bitset pos_mask = -2;
     for (char &c : pattern) {
         v[c] &= pos_mask;
@@ -15,7 +15,7 @@ inline void shift_or::init_char_mask(std::vector<dynamic_bitset> &v, std::string
     }
 }
 
-shift_or::shift_or(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
+pmt::shift_or::shift_or(std::list<std::string> &patterns) : string_searching_algorithm(patterns) {
     for (auto &pattern : patterns) {
         std::vector<dynamic_bitset> cm(UCHAR_MAX, -1);
         init_char_mask(cm, pattern);
@@ -23,7 +23,7 @@ shift_or::shift_or(std::list<std::string> &patterns) : string_searching_algorith
     }
 }
 
-std::list<size_t> shift_or::find(std::string &text) {
+std::list<size_t> pmt::shift_or::find(std::string &text) {
     std::list<size_t> occurrences;
 
     auto it0 = patterns.begin();
@@ -49,7 +49,7 @@ std::list<size_t> shift_or::find(std::string &text) {
     return occurrences;
 }
 
-bool shift_or::exists(std::string &text) {
+bool pmt::shift_or::exists(std::string &text) {
     auto it0 = patterns.begin();
     auto it1 = cms.begin();
     while (it0 != patterns.end() && it1 != cms.end()) {

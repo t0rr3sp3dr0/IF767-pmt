@@ -7,9 +7,9 @@
 
 #include "wu_manber.h"
 
-wu_manber::wu_manber(std::list<std::string> &patterns, size_t edit_distance) : shift_or(patterns), e(edit_distance) {}
+pmt::wu_manber::wu_manber(std::list<std::string> &patterns, size_t edit_distance) : shift_or(patterns), e(edit_distance) {}
 
-std::list<size_t> wu_manber::find(std::string &text) {
+std::list<size_t> pmt::wu_manber::find(std::string &text) {
     std::list<size_t> occurrences;
 
     auto it0 = patterns.begin();
@@ -43,7 +43,7 @@ std::list<size_t> wu_manber::find(std::string &text) {
     return occurrences;
 }
 
-bool wu_manber::exists(std::string &text) {
+bool pmt::wu_manber::exists(std::string &text) {
     auto it0 = patterns.begin();
     auto it1 = cms.begin();
     while (it0 != patterns.end()) {

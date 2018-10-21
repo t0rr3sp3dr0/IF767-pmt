@@ -127,26 +127,26 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    string_searching_algorithm *matcher = nullptr;
+    pmt::string_searching_algorithm *matcher = nullptr;
     switch (a) {
         case AHO_CORASICK:
-            matcher = new aho_corasick(p);
+            matcher = new pmt::aho_corasick(p);
             break;
 
         case BOYER_MOORE:
-            matcher = new boyer_moore(p);
+            matcher = new pmt::boyer_moore(p);
             break;
 
         case SHIFT_OR:
-            matcher = new shift_or(p);
+            matcher = new pmt::shift_or(p);
             break;
 
         case UKKONEN:
-            matcher = new ukkonen(p, e);
+            matcher = new pmt::ukkonen(p, e);
             break;
 
         case WU_MANBER:
-            matcher = new wu_manber(p, e);
+            matcher = new pmt::wu_manber(p, e);
             break;
 
         default:

@@ -10,7 +10,7 @@
 
 #include "ukkonen.h"
 
-inline void ukkonen::init_fsm(std::unordered_set<size_t> &tree, std::unordered_map<std::pair<size_t, char>, size_t> &delta, std::string &pattern, size_t &e) {
+inline void pmt::ukkonen::init_fsm(std::unordered_set<size_t> &tree, std::unordered_map<std::pair<size_t, char>, size_t> &delta, std::string &pattern, size_t &e) {
     std::unordered_map<std::vector<size_t>, size_t> index;
 
     size_t m = pattern.size();
@@ -55,15 +55,15 @@ inline void ukkonen::init_fsm(std::unordered_set<size_t> &tree, std::unordered_m
     }
 }
 
-ukkonen::ukkonen(std::list<std::string> &patterns, size_t edit_distance) : string_searching_algorithm(patterns), e(edit_distance) {
+pmt::ukkonen::ukkonen(std::list<std::string> &patterns, size_t edit_distance) : string_searching_algorithm(patterns), e(edit_distance) {
     for (auto &pattern : patterns) {
         this->trees.emplace_back();
         this->deltas.emplace_back();
-        ukkonen::init_fsm(this->trees.back(), this->deltas.back(), pattern, edit_distance);
+        init_fsm(this->trees.back(), this->deltas.back(), pattern, edit_distance);
     }
 }
 
-std::list<size_t> ukkonen::find(std::string &text) {
+std::list<size_t> pmt::ukkonen::find(std::string &text) {
     std::list<size_t> occurrences;
 
     auto it0 = patterns.begin();
@@ -89,7 +89,7 @@ std::list<size_t> ukkonen::find(std::string &text) {
     return occurrences;
 }
 
-bool ukkonen::exists(std::string &text) {
+bool pmt::ukkonen::exists(std::string &text) {
     auto it0 = patterns.begin();
     auto it1 = trees.begin();
     auto it2 = deltas.begin();
