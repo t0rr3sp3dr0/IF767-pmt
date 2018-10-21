@@ -16,7 +16,7 @@ inline void aho_corasick::init_fsm(std::unordered_map<std::pair<size_t, char>, s
             if (graph.find(key) != graph.end())
                 cur = graph[key];
             else
-                cur = graph[key] = graph.size();
+                graph[key] = cur = graph.size();
         }
 
         succ[cur].emplace_back(i++);
@@ -50,7 +50,6 @@ inline void aho_corasick::init_fsm(std::unordered_map<std::pair<size_t, char>, s
     }
 }
 
-
 aho_corasick::aho_corasick(std::string &pattern) : string_searching_algorithm(pattern) {
     std::vector<std::string> patterns = {pattern};
 
@@ -68,7 +67,7 @@ std::vector<size_t> aho_corasick::find(std::string &text) {
 
     size_t cur = 0;
     size_t i = 0;
-    for (auto &c : text){
+    for (auto &c : text) {
         while (graph.find({cur, c}) == graph.end())
             cur = fail[cur];
         cur = graph[{cur, c}];
@@ -86,7 +85,7 @@ bool aho_corasick::exists(std::string &text) {
 
     size_t cur = 0;
     size_t i = 0;
-    for (auto &c: text){
+    for (auto &c: text) {
         while (graph.find({cur, c}) == graph.end())
             cur = fail[cur];
         cur = graph[{cur, c}];
