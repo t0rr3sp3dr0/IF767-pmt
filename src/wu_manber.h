@@ -10,7 +10,7 @@
 
 class wu_manber : public shift_or {
 protected:
-    size_t e;
+    const size_t e;
 
 public:
     wu_manber(std::string &pattern, size_t edit_distance);
