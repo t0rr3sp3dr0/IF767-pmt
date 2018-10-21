@@ -13,7 +13,14 @@
 template <typename T>
 struct std::hash<std::vector<T>> {
     size_t operator ()(const std::vector<T> &v) const {
+#if defined(__GNUC__) && !defined(__clang__)
         return std::_Hash_impl::hash(v.data(), v.size() * sizeof(T));
+#else
+        size_t hash_code = 0;
+        for (auto &e : v)
+            hash_code ^= std::hash<T>()(e);
+        return hash_code;
+#endif
     }
 };
 
